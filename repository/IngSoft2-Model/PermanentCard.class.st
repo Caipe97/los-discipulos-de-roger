@@ -10,6 +10,7 @@ PermanentCard >> isPermanent [
 ]
 
 { #category : #playing }
+
 PermanentCard >> useEffectFor: aGame by: aPlayer [
 	aGame addPermanent: self by: aPlayer
 ]

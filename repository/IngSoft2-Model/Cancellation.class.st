@@ -9,6 +9,7 @@ Cancellation class >> to: aTarget [
 	(aTarget isMemberOf: TargetPlayer)
 		ifTrue: [ InstanceCreationFailed signal: 'Target must be a card' ].
 	^ self new initializeWithTarget: aTarget from: self
+
 ]
 
 { #category : #playing }
