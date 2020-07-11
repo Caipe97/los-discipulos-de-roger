@@ -59,7 +59,7 @@ Card >> triggerEffectFor: aGame [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 Card >> useEffectFor: aGame by: anObject [
 	self subclassResponsibility
 ]

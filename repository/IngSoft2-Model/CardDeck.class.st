@@ -24,22 +24,22 @@ CardDeck class >> with: aCollection [
 	^ self new initializeWithCards: aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CardDeck >> add: aCard [
 	cards add: aCard.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CardDeck >> cardCount [
 	^cards size.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CardDeck >> cards [
 ^cards. 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 CardDeck >> draw [
 	(cards isEmpty) ifTrue: [ InvalidAction  signal: 'Cannot draw from empty deck'].
 	 ^cards removeFirst.
@@ -50,7 +50,7 @@ CardDeck >> initializeWithCards: aCollection [
 	cards := (aCollection asOrderedCollection )
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 CardDeck >> shuffle [
 	|newCards source|
 	(cards isEmpty) ifTrue: [ InvalidAction signal: 'Cannot shuffle an empty deck' ].

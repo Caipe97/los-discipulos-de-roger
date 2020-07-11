@@ -9,7 +9,7 @@ PermanentCard >> isPermanent [
 	^true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 PermanentCard >> useEffectFor: aGame by: aPlayer [
 	aGame addPermanent: self by: aPlayer
 ]

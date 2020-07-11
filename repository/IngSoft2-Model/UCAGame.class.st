@@ -73,14 +73,9 @@ UCAGame >> atPodium: aPosition [
 	^ scoreboard at: aPosition
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 UCAGame >> cardDeck [
 	^cardDeck.
-]
-
-{ #category : #'as yet unclassified' }
-UCAGame >> cardDeckCount [
-	^cardDeck cardCount.
 ]
 
 { #category : #playing }
@@ -96,7 +91,7 @@ UCAGame >> dice [
 	^dice
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 UCAGame >> discardDeck [
 	^discardDeck
 ]
@@ -113,7 +108,7 @@ UCAGame >> finishTurn [
 	self updateScoreboard
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 UCAGame >> hasActivatedPermanents [
 	^cardHistory hasActivatedPermanents.
 ]
@@ -154,7 +149,7 @@ UCAGame >> length [
 	^board length 
 ]
 
-{ #category : #intialization }
+{ #category : #initialization }
 UCAGame >> makePlayerRows: aCollection [
 	| rowList aPlayer |
 	rowList := OrderedCollection new.
@@ -230,7 +225,7 @@ UCAGame >> podiumOf: aScoreboardRaw [
 	^ scoreboard indexOf: aScoreboardRaw 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 UCAGame >> reShuffle [
 	discardDeck shuffle.
 	(discardDeck cardCount) timesRepeat:[ cardDeck add: (discardDeck draw)].
