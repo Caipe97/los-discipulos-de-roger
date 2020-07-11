@@ -167,7 +167,7 @@ UCAGameTest >> testActivateCancellationOfNonPlayedCard [
 ]
 
 { #category : #tests }
-UCAGameTest >> testCannotAskForPodiumPositionOfAPlayerThatIsNotInTheGame [
+UCAGameTest >> testCannotAskForPodiumPositionOfPlayerNotInTheGame [
 	| aGame aThirdPlayer |
 	aThirdPlayer := 'Julivrone'.
 	aGame := UCAGame
@@ -181,7 +181,7 @@ UCAGameTest >> testCannotAskForPodiumPositionOfAPlayerThatIsNotInTheGame [
 ]
 
 { #category : #tests }
-UCAGameTest >> testCannotAskForWinnerOfAnUnfinishedGame [
+UCAGameTest >> testCannotAskForWinnerOfUnfinishedGame [
 	| aGame |
 	aGame := UCAGame
 		with: (Die of: 6 rolling: #(4 1))
@@ -463,6 +463,27 @@ UCAGameTest >> testManuTriggersMoonwalkAndLapCountDiminishesForFran [
 	self assert: (self positionOf: 'Manu' in: aGame) equals: 1.
 	self assert: (self positionOf: 'Fran' in: aGame) equals: 5.
 	self assert: (self lapsOf: 'Fran' in: aGame) equals: 0
+]
+
+{ #category : #tests }
+UCAGameTest >> testPickingCardWhenBothCardDeckAndDiscardDeckAreEmpty [
+	| aGame |
+	aGame := UCAGame
+		with: (Die of: 6 rolling: #(4))
+		on: ((BoardGenerator with: 10 of: PickCard new) buildOf: 10)
+		playedBy: players
+		withLaps: 1
+		shuffling:
+			(CardDeck
+				with:
+					{aSpeed.
+					aCancellation.
+					aRepeat.
+					aSpeed}).
+	self
+		should: [ aGame playTurn ]
+		raise: InvalidAction
+		withMessageText: 'Cannot shuffle an empty deck'
 ]
 
 { #category : #tests }

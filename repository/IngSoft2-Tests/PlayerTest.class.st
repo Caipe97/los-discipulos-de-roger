@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-PlayerTest >> test02ARowUpdateThePlayerPositionBy5 [
+PlayerTest >> test02RowUpdateThePlayerPositionBy5 [
 	| aPlayer |
 	aPlayer := Player ofPlayerNamed: 'Fran'.
 	self assert: aPlayer position equals: 0.

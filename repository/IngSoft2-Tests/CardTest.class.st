@@ -16,7 +16,7 @@ CardTest >> averagePercentOf: overloadCount [
 ]
 
 { #category : #tests }
-CardTest >> testCancellationCannotBeInitializeWithATargetPlayer [
+CardTest >> testCancellationCannotBeInitializedWithTargetPlayer [
 	self
 		should: [ Cancellation to: (TargetPlayer pointing: 'Manu') ]
 		raise: InstanceCreationFailed
@@ -88,7 +88,7 @@ CardTest >> testDrawingCardDecreasesCardDeckSize [
 ]
 
 { #category : #tests }
-CardTest >> testOverloadCannotBeInitializeWithATargetPlayer [
+CardTest >> testOverloadCannotBeInitializedWithTargetPlayer [
 	self
 		should: [ Overload to: (TargetCard pointing: (Acceleration to: NonTarget new)) ]
 		raise: InstanceCreationFailed
