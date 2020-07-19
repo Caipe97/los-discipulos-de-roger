@@ -7,12 +7,12 @@ Class {
 	#category : #'IngSoft2-Model-Card'
 }
 
-{ #category : #acccessing }
+{ #category : #accessing }
 CardHistory >> add: aCard [
 	thrownCards add: aCard
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #checking }
 CardHistory >> hasActivatedPermanents [
 	thrownCards detect: [ :card | card isPermanent ] ifFound: [ ^true ].
 	^false.
@@ -23,12 +23,12 @@ CardHistory >> initialize [
 	thrownCards := OrderedCollection new
 ]
 
-{ #category : #acccessing }
+{ #category : #accessing }
 CardHistory >> last [
 	^ thrownCards last copy
 ]
 
-{ #category : #acccessing }
+{ #category : #accessing }
 CardHistory >> remove: aCard [
 	| cardsIdenticalToCard cardsNotIdenticalToCard |
 	cardsIdenticalToCard := self selectIdenticalTo: aCard.

@@ -8,25 +8,26 @@ Class {
 		'laps',
 		'scoreboard',
 		'board',
-		'deck',
-		'cardHistory'
+		'cardHistory',
+		'discardDeck',
+		'cardDeck'
 	],
 	#category : #'IngSoft2-Model-UCAGame'
 }
 
 { #category : #'as yet unclassified' }
 UCAGame class >> playedBy: aCollection [ 
-	^self with: Die d6 on: Board ucaGameDefault playedBy: aCollection  withLaps: 1 shuffling: CardDeck withAllCards.
+	^self with: Die d6 on: Board ucaGameDefault playedBy: aCollection  withLaps: 1 shuffling: CardDeckGenerator withAllCards.
 ]
 
 { #category : #'as yet unclassified' }
 UCAGame class >> with: aDice on: aBoard playedBy: aCollection [ 
-	^self with: aDice on: aBoard playedBy: aCollection  withLaps: 1 shuffling: CardDeck withAllCards.
+	^self with: aDice on: aBoard playedBy: aCollection  withLaps: 1 shuffling: (CardDeck defaultWith:32).
 ]
 
 { #category : #instanceCreation }
 UCAGame class >> with: dice on: aBoard playedBy: players withLaps: laps [
-	^self with: dice on: aBoard playedBy: players withLaps: laps shuffling: CardDeck withAllCards.
+	^self with: dice on: aBoard playedBy: players withLaps: laps shuffling: (CardDeck defaultWith:32).
 ]
 
 { #category : #instanceCreation }
@@ -60,11 +61,21 @@ UCAGame >> addToDeck: aCard [
 	cardHistory   add: aCard
 ]
 
+{ #category : #playing }
+UCAGame >> addToDiscardDeck: aCard [
+	discardDeck add: aCard
+]
+
 { #category : #results }
 UCAGame >> atPodium: aPosition [
 	"This could be used to get when is a players turn or to get the positions at the end of the game"
 
 	^ scoreboard at: aPosition
+]
+
+{ #category : #accessing }
+UCAGame >> cardDeck [
+	^cardDeck.
 ]
 
 { #category : #playing }
@@ -80,6 +91,11 @@ UCAGame >> dice [
 	^dice
 ]
 
+{ #category : #accessing }
+UCAGame >> discardDeck [
+	^discardDeck
+]
+
 { #category : #StateChanging }
 UCAGame >> finishStartedGame [
 	state := Finished new.
@@ -92,7 +108,7 @@ UCAGame >> finishTurn [
 	self updateScoreboard
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 UCAGame >> hasActivatedPermanents [
 	^cardHistory hasActivatedPermanents.
 ]
@@ -105,7 +121,7 @@ UCAGame >> hasFinished [
 { #category : #initialization }
 UCAGame >> initializeDice: aDice withBoard: aBoard andPlayers: players andLaps: ammountLaps shuffling: aCardDeck [
 	| rows |
-	deck := aCardDeck.
+	cardDeck := aCardDeck.
 	rows := self makePlayerRows: players. 
 	dice := aDice.
 	playerSequence := CircularIterator cyclingOver: (rows copy).
@@ -114,6 +130,7 @@ UCAGame >> initializeDice: aDice withBoard: aBoard andPlayers: players andLaps: 
 	laps := ammountLaps. 
 	scoreboard := Scoreboard withRows: rows.
 	cardHistory   := CardHistory new.
+	discardDeck := CardDeck with:{}.
 	
 ]
 
@@ -132,13 +149,13 @@ UCAGame >> length [
 	^board length 
 ]
 
-{ #category : #intialization }
+{ #category : #initialization }
 UCAGame >> makePlayerRows: aCollection [
 	| rowList aPlayer |
 	rowList := OrderedCollection new.
 	aCollection
 		do: [ :playerName | 
-			aPlayer := (Player ofPlayerNamed: playerName) pick: 2 from: deck.
+			aPlayer := (Player ofPlayerNamed: playerName) pick: 2 from: cardDeck.
 			rowList add: aPlayer ].
 	^ rowList
 ]
@@ -175,7 +192,8 @@ UCAGame >> outOfBounds: aPlayer [
 
 { #category : #playing }
 UCAGame >> pickCardForActualPlayer [
-	self actualPlayer pick:1 from: deck.
+	(cardDeck cardCount = 0) ifTrue: [ self reShuffle ].
+	self actualPlayer pick:1 from: cardDeck.
 ]
 
 { #category : #playing }
@@ -208,8 +226,17 @@ UCAGame >> podiumOf: aScoreboardRaw [
 ]
 
 { #category : #playing }
+UCAGame >> reShuffle [
+	discardDeck shuffle.
+	(discardDeck cardCount) timesRepeat:[ cardDeck add: (discardDeck draw)].
+	discardDeck := CardDeck with: {}.
+]
+
+{ #category : #playing }
 UCAGame >> removePermanentCard: aCard [
-	cardHistory remove: aCard
+	discardDeck add: ((aCard cardType) createTemplate).
+	cardHistory remove: aCard.
+	
 ]
 
 { #category : #playing }

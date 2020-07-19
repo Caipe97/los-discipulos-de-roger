@@ -8,6 +8,6 @@ Class {
 Redo >> useEffectFor: aGame by: aPlayer [
 	| aCard |
 	aCard := aGame lastCard class.
-	aCard := aCard to: target.
+	aCard := aCard to: target from: (self class).
 	aCard useEffectFor: aGame by: aPlayer
 ]
